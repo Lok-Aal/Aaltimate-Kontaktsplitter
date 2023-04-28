@@ -4,8 +4,16 @@
   "description": "Backend für die Prüfungsaufgabe in SQ",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+      "test": "set TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' && mocha -r ts-node/register 'src/**/*spec.ts'",
+      "coverage": "set TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' && nyc mocha -r ts-node/register 'src/**/*spec.ts'"
   },
   "author": "Fabian Klimpel, Raphael Sack",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1"
+  }
 }
