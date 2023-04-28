@@ -1,0 +1,25 @@
+{
+  "name": "aaltimate-kontaktsplitter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd ./backend && npm install && cd ../frontend && npm install && cd ..",
+    "start": "concurrently -n BACKEND,FRONTEND \"cd ./backend && npm start\" \"cd ./frontend && npm start\" ",
+    "test": "cd ./backend && npm test && cd ../frontend && npm test && cd .."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lok-Aal/Aaltimate-Kontaktsplitter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lok-Aal/Aaltimate-Kontaktsplitter/issues"
+  },
+  "homepage": "https://github.com/Lok-Aal/Aaltimate-Kontaktsplitter#readme",
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  }
+}
