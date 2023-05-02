@@ -1,6 +1,7 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
+import { parse_contact } from "../utils/contact-parser";
 
 export class ApiService {
     private origin: string;
@@ -26,7 +27,19 @@ export class ApiService {
 
     private registerRoutes(app: express.Application) {
         app.get('/parseContact', async (req, res) => {
-            res.status(501).json({ error: "Not Implemented" });
+            let contact_input = req.query.contact;
+            if (contact_input === undefined || typeof(contact_input) !== "string") {
+                res.status(400).json({ error: "invalid input" });
+                return;
+            }
+
+            let contact = parse_contact(contact_input);
+
+            if (contact === null) {
+                res.status(400).json({ error: "invalid contact" });
+            }
+
+            res.status(200).json( contact );
         });
     }
 }
