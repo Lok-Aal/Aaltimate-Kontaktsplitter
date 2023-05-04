@@ -10,6 +10,7 @@ export interface PrefixOptions {
 }
 
 export interface PrefixParser {
+    optionsUpdated(): void;
     parse(input: string, contact_prefix?: ContactPrefix): [string, ContactPrefix];
 }
 
@@ -21,6 +22,12 @@ export class PrefixParserImpl implements PrefixParser {
 
     constructor(options: PrefixOptions) {
         this.options = options;
+        this.genderStrings = [];
+        this.titleStrings = [];
+        this.optionsUpdated();
+    }
+
+    optionsUpdated() {
         this.genderStrings = Object.keys(this.options.genderStrings).sort((a, b) => b.length - a.length); // longest first
         this.titleStrings = Object.keys(this.options.titleStrings).sort((a, b) => b.length - a.length); // longest first
     }

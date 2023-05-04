@@ -64,5 +64,6 @@ export class ContactParserImpl implements ContactParser {
 
     addTitle(title: Title, gender?: Gender): void {
         prefix_options.titleStrings[title] = { titles: [title], gender: gender };
+        this.prefix_parser.optionsUpdated();
     }
 }
