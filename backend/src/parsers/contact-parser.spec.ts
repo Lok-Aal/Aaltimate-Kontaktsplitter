@@ -189,6 +189,7 @@ const multipleNamesMockData: mock[] = [
             name: 'Max Seifert Simon Eduard',
             surname: 'Mustermann',
             titles: [],
+            gender: 'm'
         }
     }
 ]
