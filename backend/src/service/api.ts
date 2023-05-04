@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
-import { parse_contact } from "../utils/contact-parser";
+import { parse_contact } from "../parsers/contact-parser";
 
 export class ApiService {
     private origin: string;
