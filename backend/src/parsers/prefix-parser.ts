@@ -21,21 +21,59 @@ export class PrefixParser {
         this.titleStrings = Object.keys(this.options.titleStrings).sort((a, b) => b.length - a.length); // longest first
     }
 
-    parse_prefix(input: string, contact_prefix: ContactPrefix = { titles: [] }): [string, ContactPrefix] {
+    parse_prefix(input: string, contact_prefix: ContactPrefix = { gender: undefined, titles: [] }): [string, ContactPrefix] {
         for (let genderString of this.genderStrings) {
-            if (input.startsWith(genderString)) {
-                input = input.slice(genderString.length).trim();
+            let length = startsWithLength(input, genderString);
+            if (length > 0) {
+                input = input.slice(length).trim();
                 return this.parse_prefix(input, merge_contact_prefix(contact_prefix, this.options.genderStrings[genderString]));
             }
         }
         for (let titleString of this.titleStrings) {
-            if (input.startsWith(titleString)) {
-                input = input.slice(titleString.length).trim();
+            let length = startsWithLength(input, titleString);
+            if (length > 0) {
+                input = input.slice(length).trim();
                 return this.parse_prefix(input, merge_contact_prefix(contact_prefix, this.options.titleStrings[titleString]));
             }
         }
         return [input, contact_prefix];
     }
+}
+
+function startsWithLength(input: string, prefix: string): number {
+    input = input.toLocaleLowerCase();
+    // ignoriere Leerzeichen und Punkte im Prefix
+    prefix = prefix.replace(/ /g, "").replace(/\./g, "").toLowerCase();
+
+    let input_index = 0;
+    let prefix_index = 0;
+    while (prefix_index < prefix.length) {
+        // input zu Ende
+        if (input_index >= input.length) {
+            return -1;
+        }
+        // ignoriere Leerzeichen und Punkte im Input
+        if (input[input_index] === " " || input[input_index] === ".") {
+            input_index++;
+            continue;
+        }
+        // Zeichen stimmen nicht überein
+        if (input[input_index] != prefix[prefix_index]) {
+            return -1;
+        }
+
+        input_index++;
+        prefix_index++;
+    }
+    // Punkt am Ende des Präfixes im Input
+    if (input[input_index] === ".") {
+        input_index++;
+    }
+    // Falls kein Leerzeichen am Ende des Präfixes im Input = kein Prefix
+    if (input[input_index] !== " ") {
+        return -1;
+    }
+    return input_index; 
 }
 
 function merge_contact_prefix(c1: ContactPrefix, c2: ContactPrefix): ContactPrefix {
