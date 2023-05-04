@@ -5,8 +5,10 @@
 @import url("primeflex/primeflex.css");
 
 body{
+
     margin:0;
     padding:0;
+    overflow:hidden;
 }
 
 #center{
@@ -28,4 +30,10 @@ body{
 
 .p-inputgroup-addon.p-error{
     color: var(--red-500);   
+}
+
+span.error{
+
+    background-color: var(--red-500);
+    // color: var(--red-500 );
 }

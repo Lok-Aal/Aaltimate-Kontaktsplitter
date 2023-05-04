@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Contact, Gender } from 'src/model/contact';
+import { Contact, Gender, InputError } from 'src/model/contact';
+import { Form, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-contact-dialog',
   templateUrl: './contact-dialog.component.html',
@@ -12,17 +13,28 @@ import { Contact, Gender } from 'src/model/contact';
 export class ContactDialogComponent {
 
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig, private messageService: MessageService ) { 
-    this.gender = config.data.gender;  
-    this.vorname = config.data.vorname;
-    this.nachname = config.data.nachname;
-    this.titles = config.data.titles;
+    this.error = config.data.error;
+    this.errorRange = config.data.errorRange;
+    this.originalString = config.data.originalString;
+
+    this.name = new FormControl(config.data.contact.name, [Validators.required]);
+    this.surname = new FormControl(config.data.contact.surname, [Validators.required]);
+    this.titles = new FormControl(config.data.contact.titles.join(" "));
+    this.gender = new FormControl(config.data.contact.gender, [Validators.required])
+
+    if (config.data.error){
+      this.markErrorString();
+    }
   }
 
-  @Input() gender: string;
+  name: FormControl;
+  surname: FormControl;
+  titles: FormControl;
+  gender: FormControl;
 
-  @Input() vorname: string;
-  @Input() nachname: string;
-  @Input() titles: string;
+  error: string;
+  errorRange: InputError['input_error_range'];
+  originalString: string;
 
   genderOptions: any[] = [
     {
@@ -39,22 +51,35 @@ export class ContactDialogComponent {
     }
   ]
 
+  markErrorString(){
+
+      const firstPart = this.originalString.slice(0, this.errorRange!.start);
+      const secondPart = this.originalString.slice(this.errorRange!.start, this.errorRange!.end);
+      const thirdPart = this.originalString.slice(this.errorRange!.end, this.originalString.length);
+
+      this.originalString = `${firstPart}<span class='error'>${secondPart}</span>${thirdPart}`
+
+  }
+
 
   validate(){
-    
-    return this.gender != '' && this.vorname != '' && this.nachname != ''
+    this.name.markAsDirty();
+    this.surname.markAsDirty();
+    this.titles.markAsDirty();
+    this.gender.markAsDirty();
+    return (this.name.valid && this.surname.valid && this.titles.valid && this.gender.valid)
 
   }
 
   onSubmitContact(event: Event){
     event.preventDefault();
 
-    const contactGender = (this.gender == '' ? undefined : this.gender) as Gender;
+    const contactGender = (this.gender.value == '' ? undefined : this.gender.value) as Gender;
 
     if(!this.validate()){
 
       this.messageService.clear();
-      this.messageService.add({severity:'error', summary: 'Fehler', detail: 'Es sind nicht alle Pflichtfelder ausgefüllt (Vorname, Nachname, Geschlecht)'});
+      this.messageService.add({severity:'error', detail: 'Bitte fülle alle Pflichtfelder aus', });
 
       return;
     }
@@ -62,9 +87,9 @@ export class ContactDialogComponent {
 
     const contact:Contact = {
       gender: contactGender,
-      name: this.vorname,
-      surname: this.nachname,
-      titles: [this.titles]
+      name: this.name.value,
+      surname: this.surname.value,
+      titles: [this.titles.value]
     }
     this.ref.close(contact)
   }
