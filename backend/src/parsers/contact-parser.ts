@@ -1,5 +1,5 @@
 import InputError from "../errors/input-error";
-import { Contact, ContactPrefix } from "../types/contact";
+import { Contact, ContactPrefix, Gender, Title } from "../types/contact";
 import { PrefixOptions, PrefixParser, PrefixParserImpl } from "./prefix-parser";
 import { SurnameParser, SurnameParserImpl } from "./surname-parser";
 
@@ -28,7 +28,7 @@ const surname_prefixes: string[] = [
 
 export interface ContactParser {
     parse(contact_input: string): Contact;
-    addTitle(title: string): void;
+    addTitle(title: Title, gender?: Gender): void;
 }
 
 export class ContactParserImpl implements ContactParser {
@@ -62,8 +62,7 @@ export class ContactParserImpl implements ContactParser {
         return contact;
     }
 
-    addTitle(title: string): void {
-        throw new Error("Method not implemented.");
+    addTitle(title: Title, gender?: Gender): void {
+        prefix_options.titleStrings[title] = { titles: [title], gender: gender };
     }
-
 }

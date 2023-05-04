@@ -3,6 +3,7 @@ import http from "http";
 import cors from "cors";
 import { ContactParser, ContactParserImpl } from "../parsers/contact-parser";
 import InputError from "../errors/input-error";
+import { Gender, Title } from "../types/contact";
 
 export class ApiService {
 
@@ -48,6 +49,25 @@ export class ApiService {
                     });
                 }
             }
+        });
+
+
+        app.get("/addTitle", async (req, res) => {
+            let title = req.query.title;
+            let gender = req.query.gender; // optional
+
+            if (title === undefined || typeof (title) !== "string") {
+                res.status(400).json({ error: "invalid input" });
+                return;
+            }
+            if (gender !== undefined && (gender !== "string" || !["m", "w", "d"].includes(gender))) {
+                res.status(400).json({ error: "invalid input" });
+                return;
+            }
+
+            this.contact_parser.addTitle(title, gender as Gender | undefined);
+
+            res.status(200).send();
         });
     }
 }
