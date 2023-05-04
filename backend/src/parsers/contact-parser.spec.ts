@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Contact } from '../types/contact';
-import ContactParser from './contact-parser-interface';
+import { ContactParser, ContactParserImpl } from './contact-parser';
 
 interface mock {
     input: string,
@@ -468,19 +468,5 @@ describe('ContactParser can receive new title and parse correctly', () => {
 });
 
 function getTestParser(): ContactParser {
-    return new MockContactParser();
-}
-
-class MockContactParser  implements ContactParser{
-    parse(contact_input: string): Contact {
-        return {
-            name: '',
-            surname: '',  
-            titles: [],
-        }
-    }
-    addTitle(title: string): void {
-        throw new Error("Method not implemented.");
-    }
-
+    return new ContactParserImpl();
 }

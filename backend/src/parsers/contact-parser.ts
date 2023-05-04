@@ -24,20 +24,36 @@ const surname_prefixes: string[] = [
     "van",
     "der",
 ]
-    
-export function parse_contact(contact_input: string): Contact | null {
-    
-    const prefix_parser: PrefixParser = new PrefixParser(prefix_options);
-    const surname_parser: SurnameParser = new SurnameParser(surname_prefixes);
 
-    let [contact_rest, contact_prefix] = prefix_parser.parse_prefix(contact_input);
-    let [name, surname] = surname_parser.parse_surname(contact_rest);
+export interface ContactParser {
+    parse(contact_input: string): Contact
+    addTitle(title: string): void
+}
 
-    let contact: Contact = {
-        name: name,
-        surname: surname,
-        ...contact_prefix
-    };
+export class ContactParserImpl implements ContactParser {
+    prefix_parser: PrefixParser;
+    surname_parser: SurnameParser;
 
-    return contact;
+    constructor() {
+        this.prefix_parser = new PrefixParser(prefix_options);
+        this.surname_parser = new SurnameParser(surname_prefixes);
+    }
+
+    parse(contact_input: string): Contact {
+        let [contact_rest, contact_prefix] = this.prefix_parser.parse_prefix(contact_input);
+        let [name, surname] = this.surname_parser.parse_surname(contact_rest);
+
+        let contact: Contact = {
+            name: name,
+            surname: surname,
+            ...contact_prefix
+        };
+
+        return contact;
+    }
+
+    addTitle(title: string): void {
+        throw new Error("Method not implemented.");
+    }
+
 }

@@ -1,15 +1,17 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
-import { parse_contact } from "../parsers/contact-parser";
+import { ContactParser, ContactParserImpl } from "../parsers/contact-parser";
 
 export class ApiService {
-    private origin: string;
+    
     private port: number;
+    private contact_parser: ContactParser;
+    
 
-    constructor(origin: string, port: number) {
-        this.origin = origin;
+    constructor(port: number) {
         this.port = port;
+        this.contact_parser = new ContactParserImpl();
     }
 
     public init() {
@@ -33,7 +35,7 @@ export class ApiService {
                 return;
             }
 
-            let contact = parse_contact(contact_input);
+            let contact = this.contact_parser.parse(contact_input);
 
             if (contact === null) {
                 res.status(400).json({ error: "invalid contact" });
