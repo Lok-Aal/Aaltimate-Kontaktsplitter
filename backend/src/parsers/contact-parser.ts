@@ -1,3 +1,4 @@
+import InputError from "../errors/input-error";
 import { Contact, ContactPrefix } from "../types/contact";
 import { PrefixOptions, PrefixParser, PrefixParserImpl } from "./prefix-parser";
 import { SurnameParser, SurnameParserImpl } from "./surname-parser";
@@ -48,6 +49,13 @@ export class ContactParserImpl implements ContactParser {
             surname: surname,
             ...contact_prefix
         };
+        
+        if (name.split(" ").length > 1) { // Mehr als ein Wort im Namen
+            let error_start = contact_input.length - contact_rest.length + 1;
+            let error_end = contact_input.length - surname.length - 1;
+            contact.name = "";
+            throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", contact, { start: error_start, end: error_end });
+        }
 
         return contact;
     }
