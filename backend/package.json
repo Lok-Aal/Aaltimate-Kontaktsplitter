@@ -5,8 +5,8 @@
   "main": "src/app.ts",
   "scripts": {
     "start": "npx tsc && node dist/app.js",
-    "test": "set TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' && mocha -r ts-node/register 'src/**/*spec.ts'",
-    "coverage": "set TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' && nyc mocha -r ts-node/register 'src/**/*spec.ts'"
+    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && mocha -r ts-node/register 'src/**/*spec.ts'",
+    "coverage": "set TS_NODE_COMPILER_OPTIONS={\"module\": \"commonjs\" } && nyc mocha -r ts-node/register 'src/**/*spec.ts'"
   },
   "author": "Fabian Klimpel, Raphael Sack",
   "license": "MIT",
