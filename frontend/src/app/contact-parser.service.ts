@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/enviroments/enviroment';
-import { Contact } from 'src/model/contact';
+import { Contact, Gender } from 'src/model/contact';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,8 +15,8 @@ export class ContactParserService {
     return this.http.get<Contact>(url, { params: queryParams });
   }
 
-  addTitle(title: string){
+  addTitle(title: string, gender?: Gender){
     const url = `${environment.scheme}://${environment.host}:${environment.port}${environment.endpoints.addTitle}`;
-    return this.http.post(url, { title: title } );
+    return this.http.post(url, { title: title, gender: gender} );
   }
 }

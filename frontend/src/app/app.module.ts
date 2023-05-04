@@ -14,18 +14,21 @@ import { ParsedContactTableComponent } from './parsed-contact-table/parsed-conta
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { MessagesModule } from 'primeng/messages';
+import {MessageModule } from 'primeng/message';
 import { TitleListComponent } from './title-list/title-list.component';
 import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
+import { AddTitleDialogComponent } from './add-title-dialog/add-title-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
     ContactInputComponent,
     ParsedContactTableComponent,
     TitleListComponent,
-    ContactDialogComponent
+    ContactDialogComponent,
+    AddTitleDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +37,7 @@ import { FormsModule } from '@angular/forms';
     CardModule, InputTextModule, CheckboxModule, RadioButtonModule, ButtonModule, 
     HttpClientModule,
     ReactiveFormsModule,
+    MessageModule,
     MessagesModule,
     SelectButtonModule,
     FormsModule,

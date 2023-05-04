@@ -1,6 +1,7 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
+import bodyParser from "body-parser";
 import { ContactParser, ContactParserImpl } from "../parsers/contact-parser";
 import InputError from "../errors/input-error";
 import { Gender, Title } from "../types/contact";
@@ -20,6 +21,8 @@ export class ApiService {
         const app = express();
         // Cors for all
         app.use(cors());
+        // Body parser for json
+        app.use(bodyParser.json());
         var httpWebServer;
         httpWebServer = http.createServer(app);
 
@@ -52,15 +55,16 @@ export class ApiService {
         });
 
 
-        app.get("/addTitle", async (req, res) => {
-            let title = req.query.title;
-            let gender = req.query.gender; // optional
+        app.post("/addTitle", async (req, res) => {
+            let body = req.body;
+            let title = body.title;
+            let gender = body.gender; // optional
 
             if (title === undefined || typeof (title) !== "string") {
                 res.status(400).json({ error: "invalid input" });
                 return;
             }
-            if (gender !== undefined && (gender !== "string" || !["m", "w", "d"].includes(gender))) {
+            if (gender !== undefined && (typeof (gender) !== "string" || !["m", "w", "d"].includes(gender))) {
                 res.status(400).json({ error: "invalid input" });
                 return;
             }

@@ -1,35 +1,93 @@
 <div class="grid">
     <form (submit)="onSubmitContact($event)" class="col-12">
-    <div class="col-12">
-        <p-messages></p-messages>
-        <div class="p-inputgroup mb-2">
-            <span class="p-inputgroup-addon">
-                <i class="pi pi-id-card"></i>
-            </span>    
-            <input pInputText placeholder="Titel" [(ngModel)]="titles" name="titles" />
-        </div>
-        <div class="p-inputgroup mb-2">
-            <span class="p-inputgroup-addon">
-                <i class="pi pi-user"></i>
-            </span>
-            <input pInputText placeholder="Vorname*" [(ngModel)]="vorname" name="vorname"/><span class="p-inputgroup-addon p-error">*</span>
-        </div>
-        <div class="p-inputgroup mb-2">
-            <span class="p-inputgroup-addon">
-                <i class="pi pi-filled pi-user"></i>
-            </span>
-            <input pInputText placeholder="Name*" [(ngModel)]="nachname" name="name" />
-            <span class="p-inputgroup-addon p-error">*</span>
-        </div>
-        <p-selectButton styleClass="mb-5"  [options]="genderOptions" name="gender" [(ngModel)]="gender" optionLabel="label" optionValue="value"></p-selectButton>
-        <div class="flex">
+        <div class="col-12">
+            <div *ngIf="error" id="errorMessage" class="mb-5">
+                <h3>{{ error }}</h3>
+                <h5>Fügen sie ggf. einen neuen Titel zum Parser hinzu</h5>
+                <span [innerHTML]="originalString"></span>
+            </div>
+            <div class="p-inputgroup mb-2">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-id-card"></i>
+                </span>
+                <input
+                    pInputText
+                    placeholder="Titel"
+                    [formControl]="titles"
+                    name="titles"
+                />
+                
+            </div>
+            <div class="field">
 
-            <div class="flex direction-column ml-auto">
-                <p-button label="Abbrechen" (click)="ref.destroy()" styleClass="p-button-danger mr-2" icon="pi pi-times"></p-button>
-                <p-button type="submit" label="Kontakt hinzufügen" styleClass="p-button-success mr-auto" icon="pi pi-plus"></p-button><br>
+                <div class="p-inputgroup mb-2">
+                    <span class="p-inputgroup-addon">
+                    <i class="pi pi-user"></i>
+                </span>
+                <input
+                    pInputText
+                    placeholder="Vorname*"
+                    [formControl]="name"
+                    name="vorname"
+                /><span class="p-inputgroup-addon p-error">*</span>
+            </div>
+                
+                <small *ngIf="name.invalid && (name.dirty || name.touched)" class="p-error">
+                    Vorname ist erforderlich.
+                </small>
+    
+            </div>
+            <div class="field">
+
+                <div class="p-inputgroup mb-2">
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-filled pi-user"></i>
+                    </span>
+                    <input
+                    pInputText
+                    placeholder="Name*"
+                    [formControl]="surname"
+                    name="name"
+                    />
+                    <span class="p-inputgroup-addon p-error">*</span>
+                </div>
+                    
+                        <small *ngIf="surname.invalid && (surname.dirty || surname.touched)"  class="p-error">
+                            Nachname ist erforderlich.
+                        </small>
+                
+            </div>
+            <div class="field">
+
+            <p-selectButton
+                styleClass=""
+                [options]="genderOptions"
+                name="gender"
+                [formControl]="gender"
+                optionLabel="label"
+                optionValue="value"
+            ></p-selectButton>
+                <small *ngIf="gender.invalid && (gender.dirty || gender.touched)"  class="p-error">
+                            Geschlechtsangabe ist erforderlich.
+                        </small>
+            </div>
+            <div class="flex mt-5">
+                <div class="flex direction-column ml-auto">
+                    <p-button
+                        label="Abbrechen"
+                        (click)="ref.destroy()"
+                        styleClass="p-button-danger mr-2"
+                        icon="pi pi-times"
+                    ></p-button>
+                    <p-button
+                        type="submit"
+                        label="Kontakt hinzufügen"
+                        styleClass="p-button-success mr-auto"
+                        icon="pi pi-plus"
+                    ></p-button
+                    ><br />
+                </div>
             </div>
         </div>
-    </div>
     </form>
-
 </div>
