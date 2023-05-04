@@ -9,7 +9,11 @@ export interface PrefixOptions {
     }
 }
 
-export class PrefixParser {
+export interface PrefixParser {
+    parse(input: string, contact_prefix?: ContactPrefix): [string, ContactPrefix];
+}
+
+export class PrefixParserImpl implements PrefixParser {
 
     options: PrefixOptions;
     genderStrings: string[];
@@ -21,19 +25,19 @@ export class PrefixParser {
         this.titleStrings = Object.keys(this.options.titleStrings).sort((a, b) => b.length - a.length); // longest first
     }
 
-    parse_prefix(input: string, contact_prefix: ContactPrefix = { gender: undefined, titles: [] }): [string, ContactPrefix] {
+    parse(input: string, contact_prefix: ContactPrefix = { gender: undefined, titles: [] }): [string, ContactPrefix] {
         for (let genderString of this.genderStrings) {
             let length = startsWithLength(input, genderString);
             if (length > 0) {
                 input = input.slice(length).trim();
-                return this.parse_prefix(input, merge_contact_prefix(contact_prefix, this.options.genderStrings[genderString]));
+                return this.parse(input, merge_contact_prefix(contact_prefix, this.options.genderStrings[genderString]));
             }
         }
         for (let titleString of this.titleStrings) {
             let length = startsWithLength(input, titleString);
             if (length > 0) {
                 input = input.slice(length).trim();
-                return this.parse_prefix(input, merge_contact_prefix(contact_prefix, this.options.titleStrings[titleString]));
+                return this.parse(input, merge_contact_prefix(contact_prefix, this.options.titleStrings[titleString]));
             }
         }
         return [input, contact_prefix];
