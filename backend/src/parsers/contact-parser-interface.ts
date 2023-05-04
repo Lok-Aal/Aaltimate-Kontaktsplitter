@@ -1,6 +1,6 @@
 import { Contact } from "../types/contact";
 
-interface ContactParser {
+export default interface ContactParser {
 
     parse(contact_input: string): Contact
     addTitle(title: string): void
