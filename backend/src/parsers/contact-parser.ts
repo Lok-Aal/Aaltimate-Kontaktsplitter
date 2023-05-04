@@ -9,6 +9,7 @@ const prefix_options: PrefixOptions = {
     },
     titleStrings: {
         "Dr.": { titles: ["Dr."] },
+        "Dr. med.": { titles: ["Dr. med."] },
         "Dr.-Ing.": { titles: ["Dr.-Ing."] },
         "Dr. rer. nat.": { titles: ["Dr. rer. nat."] },
         "Dr. h.c. mult.": { titles: ["Dr. h.c. mult."] },
