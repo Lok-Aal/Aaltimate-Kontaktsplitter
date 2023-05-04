@@ -1,6 +1,7 @@
+import InputError from "../errors/input-error";
 import { Contact, ContactPrefix } from "../types/contact";
-import { PrefixOptions, PrefixParser } from "./prefix-parser";
-import { SurnameParser } from "./surname-parser";
+import { PrefixOptions, PrefixParser, PrefixParserImpl } from "./prefix-parser";
+import { SurnameParser, SurnameParserImpl } from "./surname-parser";
 
 const prefix_options: PrefixOptions = {
     genderStrings: {
@@ -26,8 +27,8 @@ const surname_prefixes: string[] = [
 ]
 
 export interface ContactParser {
-    parse(contact_input: string): Contact
-    addTitle(title: string): void
+    parse(contact_input: string): Contact;
+    addTitle(title: string): void;
 }
 
 export class ContactParserImpl implements ContactParser {
@@ -35,19 +36,28 @@ export class ContactParserImpl implements ContactParser {
     surname_parser: SurnameParser;
 
     constructor() {
-        this.prefix_parser = new PrefixParser(prefix_options);
-        this.surname_parser = new SurnameParser(surname_prefixes);
+        this.prefix_parser = new PrefixParserImpl(prefix_options);
+        this.surname_parser = new SurnameParserImpl(surname_prefixes);
     }
 
     parse(contact_input: string): Contact {
-        let [contact_rest, contact_prefix] = this.prefix_parser.parse_prefix(contact_input);
-        let [name, surname] = this.surname_parser.parse_surname(contact_rest);
+        let [contact_rest, contact_prefix] = this.prefix_parser.parse(contact_input);
+        let [name, surname] = this.surname_parser.parse(contact_rest);
 
         let contact: Contact = {
             name: name,
             surname: surname,
             ...contact_prefix
         };
+
+        if (name.includes(".")) { // Titel im Namen
+            let last_dot = name.lastIndexOf(".");
+            contact.name = name.slice(last_dot + 1).trim();
+
+            let error_start = contact_input.length - contact_rest.length + 1;
+            let error_end = contact_input.length - surname.length - contact.name.length - 2;
+            throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", contact, { start: error_start, end: error_end });
+        }
 
         return contact;
     }

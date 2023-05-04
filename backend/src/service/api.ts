@@ -2,12 +2,13 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import { ContactParser, ContactParserImpl } from "../parsers/contact-parser";
+import InputError from "../errors/input-error";
 
 export class ApiService {
-    
+
     private port: number;
     private contact_parser: ContactParser;
-    
+
 
     constructor(port: number) {
         this.port = port;
@@ -30,18 +31,23 @@ export class ApiService {
     private registerRoutes(app: express.Application) {
         app.get('/parseContact', async (req, res) => {
             let contact_input = req.query.contact;
-            if (contact_input === undefined || typeof(contact_input) !== "string") {
+            if (contact_input === undefined || typeof (contact_input) !== "string") {
                 res.status(400).json({ error: "invalid input" });
                 return;
             }
 
-            let contact = this.contact_parser.parse(contact_input);
-
-            if (contact === null) {
-                res.status(400).json({ error: "invalid contact" });
+            try {
+                let contact = this.contact_parser.parse(contact_input);
+                res.status(200).json(contact);
+            } catch (error) {
+                if (error instanceof InputError) {
+                    res.status(400).json({
+                        error: error.message,
+                        partial_contact: error.partial_contact,
+                        input_error_range: error.input_error_range
+                    });
+                }
             }
-
-            res.status(200).json( contact );
         });
     }
 }
