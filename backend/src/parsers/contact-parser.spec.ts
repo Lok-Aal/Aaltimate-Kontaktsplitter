@@ -149,7 +149,7 @@ const multipleSurNamesMockData: mock[] = [
         expected: {
             gender: 'm',
             name: 'Max',
-            surname: 'Muster-mann',
+            surname: 'Muster-mann-frau',
             titles: []
         }
     },
@@ -158,7 +158,7 @@ const multipleSurNamesMockData: mock[] = [
         expected: {
             gender: 'w',
             name: 'Marina',
-            surname: 'Muster-frau',
+            surname: 'Muster-frau-mann',
             titles: []
     }
     },
@@ -231,6 +231,7 @@ const genderlessData: mock[] = [
             name: 'Max',
             surname: 'Mustermann',
             titles: [],
+            gender:undefined
         },
         label: "Simple Name"
     },
@@ -240,6 +241,7 @@ const genderlessData: mock[] = [
             name: 'Marina',
             surname: 'Musterfrau',
             titles: [],
+            gender: undefined
         },
         label: "Simple Name"
     },
@@ -248,6 +250,7 @@ const genderlessData: mock[] = [
         expected: {
             name: 'Max Seifert',
             surname: 'Mustermann',
+            gender: undefined,
             titles: [],
         },
         label: "Multiple Names"
@@ -259,15 +262,17 @@ const genderlessData: mock[] = [
             name: 'Max',
             surname: 'Mustermann',
             titles: ["Prof.", "Dr."],
+            gender:undefined
         }
     },
     {
         label: 'With Multiple Titles',
         input: "Prof. Dr. rer. nat. Max Mustermann",
         expected: {
-            name: 'Max ',
+            name: 'Max',
             surname: 'Mustermann',
             titles: ["Prof.", "Dr. rer. nat."],
+            gender: undefined
         }
     },
     {
@@ -277,6 +282,7 @@ const genderlessData: mock[] = [
             name: 'Max Seifert',
             surname: 'Mustermann',
             titles: ["Prof.", "Dr. rer. nat."],
+            gender:undefined
         }
     },
     {
@@ -415,7 +421,7 @@ describe('ContactParser parses correctly for good Input with multiple names and 
         parser = getTestParser()
     });
 
-    multipleNamesMockData.forEach((mock) => {
+    multipleNamesWithTitleMockData.forEach((mock) => {
         it(`should parse "${mock.input}" correctly`, () => {
             expect(parser.parse(mock.input)).to.deep.equal(mock.expected);
         }
@@ -433,7 +439,7 @@ describe('ContactParser parses correctly for good Input with unabigious gender',
     });
 
     genderlessData.forEach((mock) => {
-        it(`should parse "${mock.input}" correctly`, () => {
+        it(`should parse "${mock.input}" correctly (${mock.label})`, () => {
             expect(parser.parse(mock.input)).to.deep.equal(mock.expected);
         }
         );
