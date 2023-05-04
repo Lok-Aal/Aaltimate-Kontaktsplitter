@@ -1,0 +1,25 @@
+<p-table  [value]="titles" styleClass="p-datatable-sm">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+            <p-button label="Titel hinzufügen" styleClass="p-button-help p-button-sm"   class="ml-auto" icon="pi pi-plus"></p-button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Titel</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-title>
+        <tr>
+            <td>{{ title }}</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+<!-- Insert a notice if there is no data -->
+<div *ngIf="titles.length == 0" class="mt-2">
+    <small class="p-info">
+        Füge einen neuen Titel hinzu
+    </small>
+</div>

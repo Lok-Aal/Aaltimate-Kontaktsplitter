@@ -1,0 +1,19 @@
+
+<p-table *ngIf="contacts.length != 0" [value]="contacts" styleClass="p-datatable-sm">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Titel</th>
+            <th>Vorname(n)</th>
+            <th>Name(n)</th>
+            <th>Geschlecht</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-contact>
+        <tr>
+            <td>{{ contact.titles.join(" ") }}</td>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.surname }}</td>
+            <td>{{ getGenderString(contact.gender) }}</td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,5 +1,31 @@
 // /* You can add global styles to this file, and also import other style files */
 @import url("primeicons/primeicons.css");
-@import url("primeng/resources/themes/lara-dark-blue/theme.css");
+@import url("primeng/resources/themes/soho-dark/theme.css");
 @import url("primeng/resources/primeng.min.css");
 @import url("primeflex/primeflex.css");
+
+body{
+    margin:0;
+    padding:0;
+}
+
+#center{
+    max-height: 75vh;
+}
+
+#leftCol, #rightCol{
+    min-height: 100%;
+    overflow-y: auto;
+}
+
+#rightCol .p-card-content{
+    height:100%;
+}
+
+#rightCol .p-card{
+    min-height:calc(100% - 0.5rem);
+}
+
+.p-inputgroup-addon.p-error{
+    color: var(--red-500);   
+}

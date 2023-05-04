@@ -1,0 +1,14 @@
+        <form (submit)="onSubmit($event)">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-user"></i>
+                </span>
+                <input pInputText placeholder="Kontakt-String" [formControl]="contactString" />
+                <button type="submit" pButton icon="pi pi-plus" styleClass="p-button-successr"></button>
+            </div>
+            <div *ngIf="contactString.invalid && (contactString.dirty || contactString.touched)" class="mt-2">
+                <small  class="p-error">
+                    Kontakt-String ist erforderlich.
+                </small>
+            </div>
+        </form>
