@@ -19,7 +19,8 @@ export class SurnameParserImpl implements SurnameParser {
             }
             surname = word + " " + surname;
         }
-        input = input.slice(0, input.length - surname.length).trim();
-        return [input, surname];
+        let name = input.slice(0, input.length - surname.length).trim();
+        name = name.replace(",", ""); // Kommas entfernen
+        return [name, surname];
     }
 }

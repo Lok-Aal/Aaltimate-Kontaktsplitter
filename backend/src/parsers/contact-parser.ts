@@ -49,11 +49,13 @@ export class ContactParserImpl implements ContactParser {
             surname: surname,
             ...contact_prefix
         };
-        
-        if (name.split(" ").length > 1) { // Mehr als ein Wort im Namen
+
+        if (name.includes(".")) { // Titel im Namen
+            let last_dot = name.lastIndexOf(".");
+            contact.name = name.slice(last_dot + 1).trim();
+
             let error_start = contact_input.length - contact_rest.length + 1;
-            let error_end = contact_input.length - surname.length - 1;
-            contact.name = "";
+            let error_end = contact_input.length - surname.length - contact.name.length - 2;
             throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", contact, { start: error_start, end: error_end });
         }
 
