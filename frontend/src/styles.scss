@@ -4,15 +4,29 @@
 @import url("primeng/resources/primeng.min.css");
 @import url("primeflex/primeflex.css");
 
+
+.toolbarCol{
+    max-width: 8rem;
+}
+
 body{
 
     margin:0;
     padding:0;
-    overflow:hidden;
+    overflow-x:hidden;
+}
+
+.copyIcon{
+    cursor: pointer !important;
+    font-size: 1.5rem !important;
 }
 
 #center{
     max-height: 75vh;
+}
+
+#leftCol p-card:last-child{
+    padding-top:0;
 }
 
 #leftCol, #rightCol{
@@ -20,6 +34,9 @@ body{
     overflow-y: auto;
 }
 
+#rightCol{
+    padding-left:0;
+}
 #rightCol .p-card-content{
     height:100%;
 }

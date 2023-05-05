@@ -3,6 +3,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddTitleDialogComponent } from '../add-title-dialog/add-title-dialog.component';
 import { ContactParserService } from '../contact-parser.service';
 import { Gender } from 'src/model/contact';
+import { ToastServiceService } from '../toast-service.service';
 
 @Component({
   selector: 'app-title-list',
@@ -14,7 +15,7 @@ export class TitleListComponent {
   titles: string[] = [];
   ref: DynamicDialogRef | undefined;
 
-  constructor(private dialogService: DialogService, private contactService: ContactParserService) { }
+  constructor(private dialogService: DialogService, private contactService: ContactParserService, private notificationService: ToastServiceService) { }
 
   onAddTitle(){
     this.showDialog();
@@ -34,8 +35,7 @@ export class TitleListComponent {
           this.titles = Array.from(new Set([...this.titles, title]));
         },
         error: (error: any) => {
-          console.log(error);
-          // TODO: Show error message
+          this.notificationService.showError(error); 
         }
     }); 
   });

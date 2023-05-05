@@ -4,7 +4,8 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { ContactParser, ContactParserImpl } from "../parsers/contact-parser";
 import InputError from "../errors/input-error";
-import { Gender, Title } from "../types/contact";
+import { Contact, Gender, Title } from "../types/contact";
+import { ContactFormatterImpl } from "../parsers/contact-formatter";
 
 export class ApiService {
 
@@ -54,6 +55,50 @@ export class ApiService {
             }
         });
 
+        app.get('/generateAnrede', async (req, res) => {
+            const name = req.query.name;
+            const surname = req.query.surname;
+            const titles = req.query.titles;
+            const gender = req.query.gender;
+
+            if (name === undefined || typeof (name) !== "string") {
+                res.status(400).json({ error: "invalid input" });
+                return;
+            }
+            if (surname === undefined || typeof (surname) !== "string") {
+                res.status(400).json({ error: "invalid input" });
+                return;
+            }
+
+            if( titles !== undefined && typeof(titles) !== "string"){
+                res.status(400).json({ error: "invalid input" });
+                return;
+            }
+
+            if(gender !== undefined && typeof(gender) !== "string"){
+                res.status(400).json({ error: "invalid input" });
+                return; 
+            }
+
+            const contact: Contact = {
+                name: name,
+                surname: surname,
+                titles: titles ? [titles] : [],
+                gender: gender ? (gender != '' ? gender as Gender : undefined) : undefined
+            }
+
+            const formatter = new ContactFormatterImpl(contact);
+
+            const anreden = {
+                formal: formatter.formatFormal(),
+                informal: formatter.formatInformal(),
+                neutral: formatter.formatNeutral()
+            }
+
+            res.status(200).json(anreden);
+            
+
+        });
 
         app.post("/addTitle", async (req, res) => {
             let body = req.body;

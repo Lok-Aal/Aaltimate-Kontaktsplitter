@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/enviroments/enviroment';
-import { Contact, Gender } from 'src/model/contact';
+import { AnredeRespone, Contact, Gender } from 'src/model/contact';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,5 +19,15 @@ export class ContactParserService {
   addTitle(title: string, gender?: Gender){
     const url = `${environment.scheme}://${environment.host}:${environment.port}${environment.endpoints.addTitle}`;
     return this.http.post(url, { title: title, gender: gender} );
+  }
+
+  generateAnrede(contact: Contact){
+    const url = `${environment.scheme}://${environment.host}:${environment.port}${environment.endpoints.generateAnrede}`;
+    const params = new HttpParams()
+    .set("name", contact.name ?? "")
+    .set("surname", contact.surname ?? "")
+    .set("titles", contact.titles?.join(",") ?? "")
+    .set("gender", contact.gender ?? "")
+    return this.http.get<AnredeRespone>(url, { params: params });
   }
 }

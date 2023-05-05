@@ -10,7 +10,7 @@ export class ContactInputComponent {
 
   contactString = new FormControl('', [Validators.required]);
 
-  @Output() onContactSubmit: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onContactSubmit: EventEmitter<{ contact: string, callback: VoidFunction }> = new EventEmitter<{ contact: string, callback: VoidFunction }>();
 
   onSubmit(event: Event){
     event.preventDefault();
@@ -18,7 +18,9 @@ export class ContactInputComponent {
     this.contactString.markAsDirty();
     console.log(this.contactString.value, this.contactString.valid);
     if(this.contactString.valid){
-      this.onContactSubmit.emit(this.contactString.value!);
+      this.onContactSubmit.emit({contact:this.contactString.value!, callback: ()=>{
+        this.contactString.reset();
+      }});
     }
   }
 

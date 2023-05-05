@@ -1,32 +1,44 @@
-
+<p-toast></p-toast>
 <div id="appWrapper">
-
-  <div class="centerWrapper flex align-items-center justify-content-center grid">
-    <div class="col-10 sm:col-11" id="center">
-    <div class="grid">
-      <div class="col-10 md:col-9 sm:col-12" id="leftCol">
-        <div class="grid">
-
-        <p-card class="col-12">
-            <app-contact-input (onContactSubmit)="onSubmitContact($event)"></app-contact-input>
-        </p-card>
-        <p-card class="col-12">
-          <div class="grid">
-            <div class="col-12">
-              <app-parsed-contact-table [contacts]="contacts"></app-parsed-contact-table>
+    <div
+        class="centerWrapper flex align-items-center justify-content-center grid"
+    >
+        <div class="col-10 sm:col-11" id="center">
+            <div class="grid">
+                <div class="col-12">
+                    <p-card class="">
+                        <h1 class="text-center m-0">
+                          Aaltimate Contact-Parser
+                        </h1>
+                    </p-card>
+                </div>
             </div>
-          </div>
-        </p-card>
+            <div class="grid">
+                <div class="col-10 md:col-9 sm:col-12" id="leftCol">
+                    <div class="grid">
+                        <p-card class="col-12">
+                            <app-contact-input
+                                (onContactSubmit)="onSubmitContact($event)"
+                            ></app-contact-input>
+                        </p-card>
+                        <p-card class="col-12">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <app-parsed-contact-table
+                                        [contacts]="contacts"
+                                        (onEditContact)="onEditContact($event)"
+                                    ></app-parsed-contact-table>
+                                </div>
+                            </div>
+                        </p-card>
+                    </div>
+                </div>
+                <div class="col-2 md:col-3 sm:col-12" id="rightCol">
+                    <p-card>
+                        <app-title-list></app-title-list>
+                    </p-card>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-2 md:col-3 sm:col-12" id="rightCol">
-        <p-card>
-          <app-title-list></app-title-list>
-        </p-card>
-      </div>
-
-    </div>      
-
     </div>
-  </div>
 </div>

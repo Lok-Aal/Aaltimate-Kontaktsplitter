@@ -6,6 +6,7 @@
             <th>Vorname(n)</th>
             <th>Name(n)</th>
             <th>Geschlecht</th>
+            <th></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-contact>
@@ -14,6 +15,14 @@
             <td>{{ contact.name }}</td>
             <td>{{ contact.surname }}</td>
             <td>{{ getGenderString(contact.gender) }}</td>
+              <td class="toolbarCol" >
+                <div class="flex">
+                    <div class="ml-auto">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2" (click)="editContact(contact)"></button>
+                        <button pButton pRipple label="Anrede generieren" (click)="generateEmail(contact)" icon="pi pi-envelope" class="p-button-rounded p-button-success" ></button>
+                    </div>
+                </div>
+                </td>
         </tr>
     </ng-template>
 </p-table>

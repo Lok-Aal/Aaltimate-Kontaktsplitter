@@ -9,7 +9,7 @@ export interface ContactPrefix {
 
 export interface Contact extends ContactPrefix {
     name?: string;
-    surname?: String;
+    surname?: string;
 } 
 
 export interface InputErrorRange {
@@ -21,4 +21,10 @@ export interface InputError extends Error {
     error: string;
     partial_contact?: Contact;
     input_error_range?: InputErrorRange;
+}
+
+export interface AnredeRespone {
+    formal: string;
+    informal: string;
+    neutral: string;
 }

@@ -20,7 +20,11 @@ import { ContactDialogComponent } from './contact-dialog/contact-dialog.componen
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
+import { PanelModule } from 'primeng/panel';
 import { AddTitleDialogComponent } from './add-title-dialog/add-title-dialog.component';
+import { FormattedStringDialogComponent } from './formatted-string-dialog/formatted-string-dialog.component';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +32,8 @@ import { AddTitleDialogComponent } from './add-title-dialog/add-title-dialog.com
     ParsedContactTableComponent,
     TitleListComponent,
     ContactDialogComponent,
-    AddTitleDialogComponent
+    AddTitleDialogComponent,
+    FormattedStringDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -36,15 +41,17 @@ import { AddTitleDialogComponent } from './add-title-dialog/add-title-dialog.com
     AppRoutingModule,
     CardModule, InputTextModule, CheckboxModule, RadioButtonModule, ButtonModule, 
     HttpClientModule,
+    PanelModule,
     ReactiveFormsModule,
     MessageModule,
     MessagesModule,
+    ToastModule,
     SelectButtonModule,
     FormsModule,
     DynamicDialogModule,
     TableModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

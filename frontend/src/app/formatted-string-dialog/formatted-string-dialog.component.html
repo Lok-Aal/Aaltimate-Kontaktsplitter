@@ -1,0 +1,40 @@
+<div class="grid">
+    <form class="col-12">
+        <p-selectButton
+            styleClass=""
+            [options]="formalityOptions"
+            name="formality"
+            [formControl]="formality"
+            optionLabel="label"
+            optionValue="value"
+        ></p-selectButton>
+
+        <p-panel styleClass="mt-5" header="Anrede">
+            <div class="grid">
+                <div class="col-11">
+                    <p>
+                        {{getCurrentAnrede()}}
+                    </p>
+                </div>
+                <div class="col-1 flex justify-content-center align-items-center">
+                    <p-button
+                        label=""
+                        styleClass="p-button-rounded p-button-text"
+                        icon="pi pi-copy copyIcon"
+                        (click)="copyToClipboard(getCurrentAnrede())"
+                    ></p-button>
+                </div>
+            </div>
+        </p-panel>
+        <div class="flex mt-5">
+            <div class="flex direction-column ml-auto">
+                <p-button
+                    label="Schließen"
+                    (click)="ref.destroy()"
+                    styleClass="p-button-danger mr-2"
+                    icon="pi pi-times"
+                ></p-button>
+            </div>
+        </div>
+    </form>
+</div>

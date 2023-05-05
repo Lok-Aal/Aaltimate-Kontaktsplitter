@@ -5,6 +5,7 @@ export const environment = {
     port: 8080,
     endpoints: {
         'parse':'/parseContact',
-        'addTitle':'/addTitle'
+        'addTitle':'/addTitle',
+        'generateAnrede':'/generateAnrede'
     }
 }
