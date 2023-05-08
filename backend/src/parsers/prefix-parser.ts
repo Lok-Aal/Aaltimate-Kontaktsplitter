@@ -81,7 +81,7 @@ function startsWithLength(input: string, prefix: string): number {
         input_index++;
     }
     // Falls kein Leerzeichen am Ende des Präfixes im Input = kein Prefix
-    if (input[input_index] !== " ") {
+    if (input_index < input.length && input[input_index] !== " ") {
         return -1;
     }
     return input_index; 

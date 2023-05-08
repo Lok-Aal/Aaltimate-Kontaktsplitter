@@ -41,6 +41,17 @@ export class ContactParserImpl implements ContactParser {
     }
 
     parse(contact_input: string): Contact {
+        let regex = /^[a-zA-ZäöüÄÖÜßâêîôûáéíóúàèìòù\-. ]+$/g;
+        if (!regex.test(contact_input)) {
+            let empty_contact: Contact = {
+                name: "",
+                surname: "",
+                titles: [],
+                gender: undefined
+            };
+            throw new InputError("Die Eingabe enthält ungültige Zeichen.", empty_contact, { start: 0, end: contact_input.length });
+        }
+
         let [contact_rest, contact_prefix] = this.prefix_parser.parse(contact_input);
         let [name, surname] = this.surname_parser.parse(contact_rest);
 
@@ -55,7 +66,8 @@ export class ContactParserImpl implements ContactParser {
             contact.name = name.slice(last_dot + 1).trim();
 
             let error_start = contact_input.length - contact_rest.length;
-            let error_end = contact_input.length - surname.length - contact.name.length - 2;
+            let error_end = error_start + last_dot + 1;
+
             throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", contact, { start: error_start, end: error_end });
         }
 

@@ -13,6 +13,9 @@ export class SurnameParserImpl implements SurnameParser {
     parse(input: string): [string, string] {
         let words = input.split(" ");
         let surname = words[words.length - 1];
+        if (surname.includes(".")) {
+            return [input, ""];
+        }
         for (let word of words.slice(0, words.length - 1).reverse()) {
             if (!this.surname_prefixes.includes(word)) {
                 break;
@@ -20,7 +23,6 @@ export class SurnameParserImpl implements SurnameParser {
             surname = word + " " + surname;
         }
         let name = input.slice(0, input.length - surname.length).trim();
-        name = name.replace(",", ""); // Kommas entfernen
         return [name, surname];
     }
 }
