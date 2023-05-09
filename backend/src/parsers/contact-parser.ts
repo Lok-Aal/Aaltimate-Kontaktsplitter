@@ -65,7 +65,7 @@ export class ContactParserImpl implements ContactParser {
                 contact.gender = undefined;
             }
 
-            throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", "Fügen sie ggf. einen neuen Titel zum Parser hinzu", contact, { start: error_start, end: error_end });
+            throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", "Fügen sie ggf. einen neuen Titel zum Parser hinzu.", contact, { start: error_start, end: error_end });
         }
 
         if (contact.gender === "error") {
