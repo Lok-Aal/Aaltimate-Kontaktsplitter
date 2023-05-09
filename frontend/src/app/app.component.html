@@ -16,12 +16,12 @@
             <div class="grid">
                 <div class="col-10 md:col-9 sm:col-12" id="leftCol">
                     <div class="grid">
-                        <p-card class="col-12">
+                        <p-card id="searchCard" class="col-12">
                             <app-contact-input
                                 (onContactSubmit)="onSubmitContact($event)"
                             ></app-contact-input>
                         </p-card>
-                        <p-card class="col-12">
+                        <p-card  class="col-12">
                             <div class="grid">
                                 <div class="col-12">
                                     <app-parsed-contact-table
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="col-2 md:col-3 sm:col-12" id="rightCol">
-                    <p-card>
+                    <p-card id="rightColCard">
                         <app-title-list></app-title-list>
                     </p-card>
                 </div>

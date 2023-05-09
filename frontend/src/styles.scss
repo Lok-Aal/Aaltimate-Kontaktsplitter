@@ -36,13 +36,28 @@ body{
 
 #rightCol{
     padding-left:0;
+    height:50vh;
+    overflow-y:hidden;
 }
+
+#rightColCard{
+    height:50vh;
+    display:inline-block;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: stretch;
+    
+}
+
 #rightCol .p-card-content{
     height:100%;
 }
 
 #rightCol .p-card{
-    min-height:calc(100% - 0.5rem);
+    height:calc(100% - 0.5rem);
+    > * {
+        height:100%;
+    }
 }
 
 .p-inputgroup-addon.p-error{
@@ -53,4 +68,33 @@ span.error{
 
     background-color: var(--red-500);
     // color: var(--red-500 );
+}
+
+
+#mainCard .p-datatable > .p-datatable-wrapper {
+    overflow-y: hidden !important;
+}
+
+.titleList{
+    display:inline-block;
+    height:100%;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: stretch;
+    > * {
+        height:100%;
+    }
+    .p-datatable-wrapper{
+        height:calc(100% - 0.5rem) !important;
+    }
+}
+
+
+
+app-title-list{
+    display:inline-block;
+    height:100%;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: stretch;
 }
