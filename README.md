@@ -23,3 +23,7 @@ Dieses Projekt ist ein Prototyp für eine Anwendung, die einen Kontakt-String pa
 4. Projekt starten: `npm start`
 
 Projekt sollte nun unter [localhost:3000](http://localhost:4200) erreichbar sein.
+
+## Anwendung testen
+
+`npm test` ausführen
