@@ -29,9 +29,9 @@ export class ContactFormatterImpl implements ContactFormatter{
         switch(this.contact.gender){
             case "m":
             case "w":
-                return `Sehr ${genderedGeehrte} ${genderedPrefix} ${this.contact.titles ? this.contact.titles?.join("")+" " : ""}${this.contact.surname}`;
+                return `Sehr ${genderedGeehrte} ${genderedPrefix}${(this.contact.titles && this.contact.titles.length == 0) ? " " : " " + this.contact.titles?.join(" ").trim() + " "}${this.contact.surname}`;
             default:
-                return `Sehr ${genderedGeehrte} ${this.contact.titles ? this.contact.titles?.join("") + " " : ""}${genderedPrefix} ${this.contact.surname}`;
+                return `Sehr ${genderedGeehrte}${(this.contact.titles && this.contact.titles.length == 0) ? " " : " " + this.contact.titles?.join(" ").trim() + " "}${genderedPrefix} ${this.contact.surname}`;
         }
     }
 

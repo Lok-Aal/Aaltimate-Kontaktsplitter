@@ -77,31 +77,25 @@ export class ApiService {
             const titles = req.query.titles;
             const gender = req.query.gender;
 
-            // Überprüfung auf richtiges Format der Eingabe
-            if (name === undefined || typeof (name) !== "string") {
-                res.status(400).json({ error: "invalid input" });
-                return;
-            }
-            if (surname === undefined || typeof (surname) !== "string") {
-                res.status(400).json({ error: "invalid input" });
-                return;
-            }
+            let paramsValid = (name === undefined || typeof (name) !== "string");
+            paramsValid = paramsValid || (surname === undefined || typeof (surname) !== "string");
+            paramsValid = paramsValid || (titles !== undefined && typeof (titles) !== "string");
+            paramsValid = paramsValid || (gender !== undefined && typeof (gender) !== "string")
 
-            if( titles !== undefined && typeof(titles) !== "string"){
-                res.status(400).json({ error: "invalid input" });
-                return;
-            }
 
-            if(gender !== undefined && typeof(gender) !== "string"){
+            if(!paramsValid){
                 res.status(400).json({ error: "invalid input" });
                 return; 
             }
 
+            // Check um sicherzugehen ob das Geschlecht wirklich m, w oder d oder undefined ist.
+            const determinedGender = gender ? (gender != '' ? gender as Gender : undefined) : undefined;
+
             const contact: Contact = {
-                name: name,
-                surname: surname,
-                titles: titles ? [titles] : [],
-                gender: gender ? (gender != '' ? gender as Gender : undefined) : undefined
+                name: name as string,
+                surname: surname as string,
+                titles: titles ? [titles as string] : [],
+                gender: determinedGender
             }
 
             // Anreden generieren
