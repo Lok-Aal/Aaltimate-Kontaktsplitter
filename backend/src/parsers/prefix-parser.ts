@@ -1,3 +1,4 @@
+import InputError from "../errors/input-error";
 import { Contact, ContactPrefix, Gender, Title } from "../types/contact";
 
 export interface PrefixOptions {
@@ -123,10 +124,6 @@ function startsWithLength(input: string, prefix: string): number {
  * @returns Zusammengeführtes ContactPrefix Objekt
  */
 function merge_contact_prefix(c1: ContactPrefix, c2: ContactPrefix): ContactPrefix {
-    if (c1.gender != null && c2.gender != c1.gender) {
-        // TODO: Gender Error
-    }
-
     // Führe Titel zusammen
     let titles: Title[] = [];
     if (c1.titles) {
@@ -136,8 +133,13 @@ function merge_contact_prefix(c1: ContactPrefix, c2: ContactPrefix): ContactPref
         titles = titles.concat(c2.titles);
     }
     
-    // Gender wird von c1 übernommen, falls vorhanden, sonst von c2
+    // Geschlecht wird von c1 übernommen, falls vorhanden, sonst von c2
     let gender = c1.gender || c2.gender;
+
+    // Geschlechter der Präfixe stimmen nicht überein
+    if (c1.gender != null && c2.gender != c1.gender) {
+        gender = "error";
+    }
 
     return {
         gender: gender,

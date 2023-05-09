@@ -24,9 +24,6 @@ export class DatabaseImpl {
                 "Frau": { gender: "w" },
             },
             titleStrings: {
-                // Akademische Titel
-                "Professor": { gender: "m", titles: ["Prof."] },
-                "Professorin": { gender: "w", titles: ["Prof."] },
                 // Adels-Titel
                 "Prinz": {gender: "m", titles: ["Prinz"]},
                 "Prinzessin": {gender: "w", titles: ["Prinzessin"]},
@@ -56,6 +53,9 @@ export class DatabaseImpl {
                 "Freifrau": {gender: "w", titles: ["Freifrau"]},
                 "Baron": {gender: "m", titles: ["Baron"]},
                 "Baronin": {gender: "w", titles: ["Baronin"]},
+                // Akademische Titel
+                "Professor": { gender: "m", titles: ["Prof."] },
+                "Professorin": { gender: "w", titles: ["Prof."] },
             }
         };
 

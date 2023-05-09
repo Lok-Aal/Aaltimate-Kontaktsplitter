@@ -1,4 +1,4 @@
-export type Gender = "m" | "w" | "d";
+export type Gender = "m" | "w" | "d" | "error";
 
 export type Title = string;
 
