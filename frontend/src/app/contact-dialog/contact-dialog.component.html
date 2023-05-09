@@ -3,7 +3,7 @@
         <div class="col-12">
             <div *ngIf="error" id="errorMessage" class="mb-5">
                 <h3>{{ error }}</h3>
-                <h5>Fügen sie ggf. einen neuen Titel zum Parser hinzu</h5>
+                <h3 *ngIf="hint != undefined">{{ hint }}</h3>
                 <span [innerHTML]="originalString"></span>
             </div>
             <div class="p-inputgroup mb-2">
