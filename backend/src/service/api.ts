@@ -15,9 +15,14 @@ export class ApiService {
 
     constructor(port: number) {
         this.port = port;
+
+        // ContactParser initialisieren
         this.contact_parser = new ContactParserImpl();
     }
 
+    /**
+     * API initialisieren
+     */
     public init() {
         const app = express();
         // Cors for all
@@ -27,25 +32,35 @@ export class ApiService {
         var httpWebServer;
         httpWebServer = http.createServer(app);
 
+        // API starten
         httpWebServer.listen(this.port, () => {
             console.log(`API listening to port ${this.port}`);
             this.registerRoutes(app);
         });
     }
 
+    /**
+     * parseContact, generateAnrede und addTitle als Routen registrieren
+     * @param app Express-App
+     */
     private registerRoutes(app: express.Application) {
+
+        // parseContact registrieren
         app.get('/parseContact', async (req, res) => {
             let contact_input = req.query.contact;
+            // Überprüfung auf richtiges Format der Eingabe
             if (contact_input === undefined || typeof (contact_input) !== "string") {
                 res.status(400).json({ error: "invalid input" });
                 return;
             }
 
             try {
+                // Kontakt parsen
                 let contact = this.contact_parser.parse(contact_input);
                 res.status(200).json(contact);
             } catch (error) {
                 if (error instanceof InputError) {
+                    // Fehler bei der Eingabe
                     res.status(400).json({
                         error: error.message,
                         partial_contact: error.partial_contact,
@@ -55,12 +70,14 @@ export class ApiService {
             }
         });
 
+        // generateAnrede registrieren
         app.get('/generateAnrede', async (req, res) => {
             const name = req.query.name;
             const surname = req.query.surname;
             const titles = req.query.titles;
             const gender = req.query.gender;
 
+            // Überprüfung auf richtiges Format der Eingabe
             if (name === undefined || typeof (name) !== "string") {
                 res.status(400).json({ error: "invalid input" });
                 return;
@@ -87,8 +104,8 @@ export class ApiService {
                 gender: gender ? (gender != '' ? gender as Gender : undefined) : undefined
             }
 
+            // Anreden generieren
             const formatter = new ContactFormatterImpl(contact);
-
             const anreden = {
                 formal: formatter.formatFormal(),
                 informal: formatter.formatInformal(),
@@ -96,15 +113,15 @@ export class ApiService {
             }
 
             res.status(200).json(anreden);
-            
-
         });
 
+        // addTitle registrieren
         app.post("/addTitle", async (req, res) => {
             let body = req.body;
             let title = body.title;
             let gender = body.gender; // optional
 
+            // Überprüfung auf richtiges Format der Eingabe
             if (title === undefined || typeof (title) !== "string") {
                 res.status(400).json({ error: "invalid input" });
                 return;
@@ -114,6 +131,7 @@ export class ApiService {
                 return;
             }
 
+            // Titel hinzufügen
             this.contact_parser.addTitle(title, gender as Gender | undefined);
 
             res.status(200).send();

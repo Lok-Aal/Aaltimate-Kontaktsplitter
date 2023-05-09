@@ -20,6 +20,9 @@ export class PrefixParserImpl implements PrefixParser {
     genderStrings: string[];
     titleStrings: string[];
 
+    /**
+     * @param options Optionen für PrefixParser, welche Präfixe enthalten
+     */
     constructor(options: PrefixOptions) {
         this.options = options;
         this.genderStrings = [];
@@ -27,19 +30,36 @@ export class PrefixParserImpl implements PrefixParser {
         this.optionsUpdated();
     }
 
+    /**
+     * Aktualisiert genderStrings und titleStrings
+     * Wird bei Änderungen an PrefixOptions aufgerufen
+     */
     optionsUpdated() {
         this.genderStrings = Object.keys(this.options.genderStrings).sort((a, b) => b.length - a.length); // longest first
         this.titleStrings = Object.keys(this.options.titleStrings).sort((a, b) => b.length - a.length); // longest first
     }
 
+    /**
+     * @param input String, der Präfixe enthält
+     * @param contact_prefix Temporärer Kontakt, der mit Präfixen erweitert wird (Wird für Rekursion benötigt)
+     * @returns Rest des Strings nach dem Präfix und Kontakt mit Präfixen
+     */
     parse(input: string, contact_prefix: ContactPrefix = { gender: undefined, titles: [] }): [string, ContactPrefix] {
-        for (let genderString of this.genderStrings) {
-            let length = startsWithLength(input, genderString);
-            if (length > 0) {
-                input = input.slice(length).trim();
-                return this.parse(input, merge_contact_prefix(contact_prefix, this.options.genderStrings[genderString]));
+        
+        // genderStrings ("Herr", "Frau") müssen am Anfang stehen, also vor titleStrings
+        if (contact_prefix.gender === undefined && contact_prefix.titles!.length == 0) {
+            // Nach genderString suchen
+            for (let genderString of this.genderStrings) {
+                let length = startsWithLength(input, genderString);
+                if (length > 0) {
+                    input = input.slice(length).trim();
+                    return this.parse(input, merge_contact_prefix(contact_prefix, this.options.genderStrings[genderString]));
+                }
             }
         }
+
+        // Durch Titel iterieren und rekursiv nach Titeln suchen
+        // titleStrings ist absteigend nach Länge sortiert, damit z.B. "Dr. med." vor "Dr." erkannt wird
         for (let titleString of this.titleStrings) {
             let length = startsWithLength(input, titleString);
             if (length > 0) {
@@ -51,6 +71,15 @@ export class PrefixParserImpl implements PrefixParser {
     }
 }
 
+/**
+ * Erkennt Prefix in Input String und gibt dessen Länge zurück.
+ * - Groß und Kleinschreibung wird ignoriert
+ * - Leerzeichen werden ignoriert
+ * - Punkte werden teilweise ignoriert
+ * @param input String in dem nach Prefix gesucht wird
+ * @param prefix Präfix nach dem gesucht wird
+ * @returns Länge des Präfixes im Input String oder -1, falls kein Präfix gefunden wurde
+ */
 function startsWithLength(input: string, prefix: string): number {
     input = input.toLocaleLowerCase();
     // ignoriere Leerzeichen und Punkte im Prefix
@@ -87,10 +116,18 @@ function startsWithLength(input: string, prefix: string): number {
     return input_index; 
 }
 
+/**
+ * Führt zwei ContactPrefix Objekte zusammen
+ * @param c1 Erstes ContactPrefix Objekt
+ * @param c2 Zweites ContactPrefix Objekt
+ * @returns Zusammengeführtes ContactPrefix Objekt
+ */
 function merge_contact_prefix(c1: ContactPrefix, c2: ContactPrefix): ContactPrefix {
     if (c1.gender != null && c2.gender != c1.gender) {
         // TODO: Gender Error
     }
+
+    // Führe Titel zusammen
     let titles: Title[] = [];
     if (c1.titles) {
         titles = titles.concat(c1.titles);
@@ -98,8 +135,12 @@ function merge_contact_prefix(c1: ContactPrefix, c2: ContactPrefix): ContactPref
     if (c2.titles) {
         titles = titles.concat(c2.titles);
     }
+    
+    // Gender wird von c1 übernommen, falls vorhanden, sonst von c2
+    let gender = c1.gender || c2.gender;
+
     return {
-        gender: c1.gender || c2.gender,
+        gender: gender,
         titles: titles
     };
 }

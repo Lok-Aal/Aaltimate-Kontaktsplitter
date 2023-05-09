@@ -1,7 +1,5 @@
 export type Gender = "m" | "w" | "d";
 
-
-
 export type Title = string;
 
 export interface ContactPrefix {
@@ -10,6 +8,6 @@ export interface ContactPrefix {
 }
 
 export interface Contact extends ContactPrefix {
-    name?: string;
-    surname?: String;
+    name: string;
+    surname: String;
 } 

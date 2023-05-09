@@ -11,6 +11,9 @@ export class ContactFormatterImpl implements ContactFormatter{
 
     constructor(public contact: Contact){}
 
+    /**
+     * @returns formale Anrede
+     */
     formatFormal(): string {
 
         let genderedPrefix = this.contact.name;
@@ -32,10 +35,16 @@ export class ContactFormatterImpl implements ContactFormatter{
         }
     }
 
+    /**
+     * @returns Informale Anrede
+     */
     formatInformal(): string {
         return `Hallo ${this.contact.name}`
     }
 
+    /**
+     * @returns Neutrale Anrede
+     */
     formatNeutral(): string {
 
         let genderedPrefix = this.contact.name;
