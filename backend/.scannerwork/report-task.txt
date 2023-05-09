@@ -1,0 +1,6 @@
+projectKey=Aaltimate
+serverUrl=http://localhost:9000
+serverVersion=9.9.0.65466
+dashboardUrl=http://localhost:9000/dashboard?id=Aaltimate
+ceTaskId=AYfrYF-gKVUdpIX34L0O
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYfrYF-gKVUdpIX34L0O
