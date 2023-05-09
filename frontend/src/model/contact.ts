@@ -19,6 +19,7 @@ export interface InputErrorRange {
 
 export interface InputError extends Error {
     error: string;
+    hint?: string;
     partial_contact?: Contact;
     input_error_range?: InputErrorRange;
 }

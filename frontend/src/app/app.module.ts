@@ -20,11 +20,13 @@ import { ContactDialogComponent } from './contact-dialog/contact-dialog.componen
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
+
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { PanelModule } from 'primeng/panel';
 import { AddTitleDialogComponent } from './add-title-dialog/add-title-dialog.component';
 import { FormattedStringDialogComponent } from './formatted-string-dialog/formatted-string-dialog.component';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,7 @@ import { MessageService } from 'primeng/api';
     AppRoutingModule,
     CardModule, InputTextModule, CheckboxModule, RadioButtonModule, ButtonModule, 
     HttpClientModule,
+    ConfirmPopupModule,
     PanelModule,
     ReactiveFormsModule,
     MessageModule,
@@ -51,7 +54,7 @@ import { MessageService } from 'primeng/api';
     DynamicDialogModule,
     TableModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

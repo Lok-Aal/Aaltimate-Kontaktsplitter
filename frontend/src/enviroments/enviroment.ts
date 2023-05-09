@@ -6,6 +6,7 @@ export const environment = {
     endpoints: {
         'parse':'/parseContact',
         'addTitle':'/addTitle',
-        'generateAnrede':'/generateAnrede'
+        'generateAnrede':'/generateAnrede',
+        'getTitles':'/getTitles'
     }
 }

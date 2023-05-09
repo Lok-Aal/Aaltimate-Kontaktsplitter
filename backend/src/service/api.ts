@@ -78,13 +78,13 @@ export class ApiService {
             const titles = req.query.titles;
             const gender = req.query.gender;
 
-            let paramsValid = (name === undefined || typeof (name) !== "string");
-            paramsValid = paramsValid || (surname === undefined || typeof (surname) !== "string");
-            paramsValid = paramsValid || (titles !== undefined && typeof (titles) !== "string");
-            paramsValid = paramsValid || (gender !== undefined && typeof (gender) !== "string")
+            let paramsIvalid = (name === undefined || typeof (name) !== "string");
+            paramsIvalid = paramsIvalid || (surname === undefined || typeof (surname) !== "string");
+            paramsIvalid = paramsIvalid || (titles !== undefined && typeof (titles) !== "string");
+            paramsIvalid = paramsIvalid || (gender !== undefined && typeof (gender) !== "string")
 
 
-            if(!paramsValid){
+            if(paramsIvalid){
                 res.status(400).json({ error: "invalid input" });
                 return; 
             }

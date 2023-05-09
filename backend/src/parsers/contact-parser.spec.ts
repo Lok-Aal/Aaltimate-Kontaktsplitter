@@ -4,7 +4,7 @@ import { ContactParser, ContactParserImpl } from './contact-parser';
 
 interface mock {
     input: string,
-    expected: Contact,
+    expected?: Contact,
     label?: string
 }
 
@@ -308,6 +308,33 @@ const genderlessData: mock[] = [
     }
 ]
 
+const wrongData: mock[] = [
+    {
+        input: "`Herr Max Mustermann",
+        label: "Illegal Character"
+    },
+    {
+        input: "Frau Marina M%usterfrau",
+        label: "Illegal Character"
+    },
+    {
+        input: "Herr Max Muster-mann$",
+        label: "Illegal Character"
+    },
+    {
+        input: "Frau Professor Marina Muster-frau-mann",
+        label: "Gender Error"
+    },
+    {
+        input: "Herr Professorin Dr. rer. nat. Max Seifert Mustermann",
+        label: "Gender Error"
+    },
+    {
+        input: "Herr Fr. Max Seifert Mustermann",
+        label: "Unknown Title"
+    }
+]
+
 
 describe('ContactParser parses correctly for good Input with Titles', () => {
 
@@ -473,6 +500,22 @@ describe('ContactParser can receive new title and parse correctly', () => {
     }); 
 
 });
+
+describe("ContactParser throws error for bad input", () => {
+    let parser: ContactParser;
+
+    beforeEach(() => {
+        parser = getTestParser()
+    });
+
+    wrongData.forEach((mock) => {
+        it(`should throw an error for "${mock.input}" (${mock.label})`, () => {
+            expect(() => parser.parse(mock.input)).to.throw();
+        });
+    });
+
+});
+
 
 function getTestParser(): ContactParser {
     return new ContactParserImpl();

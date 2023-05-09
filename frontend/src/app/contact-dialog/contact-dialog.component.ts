@@ -14,6 +14,7 @@ export class ContactDialogComponent {
 
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig, private messageService: MessageService ) { 
     this.error = config.data.error;
+    this.hint = config.data.hint;
     this.errorRange = config.data.errorRange;
     this.originalString = config.data.originalString;
 
@@ -33,6 +34,7 @@ export class ContactDialogComponent {
   gender: FormControl;
 
   error: string;
+  hint: string;
   errorRange: InputError['input_error_range'];
   originalString: string;
 

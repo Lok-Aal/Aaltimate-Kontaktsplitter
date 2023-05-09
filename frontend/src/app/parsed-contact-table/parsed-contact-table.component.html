@@ -1,5 +1,6 @@
+<p-confirmPopup></p-confirmPopup>
 
-<p-table *ngIf="contacts.length != 0" [value]="contacts" styleClass="p-datatable-sm">
+<p-table id="tableCard" *ngIf="contacts.length != 0" [value]="contacts"  styleClass="p-datatable-sm">
     <ng-template pTemplate="header">
         <tr>
             <th>Titel</th>
@@ -18,8 +19,10 @@
               <td class="toolbarCol" >
                 <div class="flex">
                     <div class="ml-auto">
+                        <button pButton pRipple label="Anrede generieren" (click)="generateEmail(contact)" icon="pi pi-envelope" class="p-button-rounded p-button-success mr-2" ></button>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2" (click)="editContact(contact)"></button>
-                        <button pButton pRipple label="Anrede generieren" (click)="generateEmail(contact)" icon="pi pi-envelope" class="p-button-rounded p-button-success" ></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger " (click)="deleteContact(contact, $event)"></button>
+                        
                     </div>
                 </div>
                 </td>

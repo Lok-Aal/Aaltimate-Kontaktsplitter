@@ -21,6 +21,11 @@ export class ContactParserService {
     return this.http.post(url, { title: title, gender: gender} );
   }
 
+  getTitles(){
+    const url = `${environment.scheme}://${environment.host}:${environment.port}${environment.endpoints.getTitles}`;
+    return this.http.get<string[]>(url);
+  }
+
   generateAnrede(contact: Contact){
     const url = `${environment.scheme}://${environment.host}:${environment.port}${environment.endpoints.generateAnrede}`;
     const params = new HttpParams()

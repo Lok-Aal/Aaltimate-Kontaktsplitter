@@ -24,6 +24,7 @@ export class AppComponent {
 
     this.showDialog(error.partial_contact!, ()=>{}, {
       error: error.error,
+      hint: error.hint,
       errorRange: error.input_error_range,
       originalString: originalString
     });
