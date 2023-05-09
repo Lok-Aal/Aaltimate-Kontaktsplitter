@@ -17,7 +17,7 @@ export class ContactParserImpl implements ContactParser {
 
     constructor() {
         this.database = new DatabaseImpl();
-        
+
         // PrefixParser und SurnameParser initialisieren
         this.prefix_parser = new PrefixParserImpl(this.database.getPrefixOptions());
         this.surname_parser = new SurnameParserImpl(this.database.getSurnamePrefixes());
@@ -37,7 +37,7 @@ export class ContactParserImpl implements ContactParser {
                 titles: [],
                 gender: undefined
             };
-            throw new InputError("Die Eingabe enthält ungültige Zeichen.", empty_contact, { start: 0, end: contact_input.length });
+            throw new InputError("Die Eingabe enthält ungültige Zeichen.", "", empty_contact, { start: 0, end: contact_input.length });
         }
 
         // Parsing Schritt mit PrefixParser und SurnameParser
@@ -56,7 +56,7 @@ export class ContactParserImpl implements ContactParser {
             // Titel aus dem Namen entfernen
             let last_dot = name.lastIndexOf(".");
             contact.name = name.slice(last_dot + 1).trim();
-            
+
             // Bereich der Fehleingabe bestimmen
             let error_start = contact_input.length - contact_rest.length;
             let error_end = error_start + last_dot + 1;
@@ -65,12 +65,12 @@ export class ContactParserImpl implements ContactParser {
                 contact.gender = undefined;
             }
 
-            throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", contact, { start: error_start, end: error_end });
+            throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", "Fügen sie ggf. einen neuen Titel zum Parser hinzu", contact, { start: error_start, end: error_end });
         }
 
         if (contact.gender === "error") {
             contact.gender = undefined;
-            throw new InputError("Geschlechter der Präfixe stimmen nicht überein.", contact, { start: 0, end: 0 });
+            throw new InputError("Geschlechter der Präfixe stimmen nicht überein.", "", contact, { start: 0, end: 0 });
         }
 
         return contact;
@@ -83,5 +83,5 @@ export class ContactParserImpl implements ContactParser {
 
     getTitles(): Title[] {
         return Object.keys(this.database.getPrefixOptions().titleStrings);
-    }        
+    }
 }

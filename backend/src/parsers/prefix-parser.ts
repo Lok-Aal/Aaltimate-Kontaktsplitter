@@ -1,5 +1,4 @@
-import InputError from "../errors/input-error";
-import { Contact, ContactPrefix, Gender, Title } from "../types/contact";
+import { ContactPrefix, Title } from "../types/contact";
 
 export interface PrefixOptions {
     genderStrings: {

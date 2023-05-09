@@ -4,7 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { ContactParser, ContactParserImpl } from "../parsers/contact-parser";
 import InputError from "../errors/input-error";
-import { Contact, Gender, Title } from "../types/contact";
+import { Contact, Gender } from "../types/contact";
 import { ContactFormatterImpl } from "../parsers/contact-formatter";
 
 export class ApiService {
@@ -63,6 +63,7 @@ export class ApiService {
                     // Fehler bei der Eingabe
                     res.status(400).json({
                         error: error.message,
+                        hint: error.hint,
                         partial_contact: error.partial_contact,
                         input_error_range: error.input_error_range
                     });
