@@ -7,6 +7,7 @@ import { SurnameParser, SurnameParserImpl } from "./surname-parser";
 export interface ContactParser {
     parse(contact_input: string): Contact;
     addTitle(title: Title, gender?: Gender): void;
+    getTitles(): Title[];
 }
 
 export class ContactParserImpl implements ContactParser {
@@ -70,4 +71,8 @@ export class ContactParserImpl implements ContactParser {
         this.database.getPrefixOptions().titleStrings[title] = { titles: [title], gender: gender };
         this.prefix_parser.optionsUpdated();
     }
+
+    getTitles(): Title[] {
+        return Object.keys(this.database.getPrefixOptions().titleStrings);
+    }        
 }
