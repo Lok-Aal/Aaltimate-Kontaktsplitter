@@ -108,6 +108,10 @@ export class ApiService {
 
             res.status(200).json(anreden);
         });
+        
+        app.get("/getTitles", async (req, res) => {
+            res.status(200).json(this.contact_parser.getTitles());
+        });
 
         // addTitle registrieren
         app.post("/addTitle", async (req, res) => {
