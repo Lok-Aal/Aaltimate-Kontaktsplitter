@@ -61,7 +61,16 @@ export class ContactParserImpl implements ContactParser {
             let error_start = contact_input.length - contact_rest.length;
             let error_end = error_start + last_dot + 1;
 
+            if (contact.gender === "error") {
+                contact.gender = undefined;
+            }
+
             throw new InputError("Die Eingabe konnte nicht vollständig verarbeitet werden.", contact, { start: error_start, end: error_end });
+        }
+
+        if (contact.gender === "error") {
+            contact.gender = undefined;
+            throw new InputError("Geschlechter der Präfixe stimmen nicht überein.", contact, { start: 0, end: 0 });
         }
 
         return contact;
