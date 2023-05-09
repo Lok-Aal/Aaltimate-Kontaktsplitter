@@ -3,8 +3,8 @@
         <div class="col-12">
             <div *ngIf="error" id="errorMessage" class="mb-5">
                 <h3>{{ error }}</h3>
-                <h3 *ngIf="hint != undefined">{{ hint }}</h3>
-                <span [innerHTML]="originalString"></span>
+                <h5 *ngIf="hint != undefined">{{ hint }}</h5>
+                <span *ngIf="originalString != undefined" [innerHTML]="originalString"></span>
             </div>
             <div class="p-inputgroup mb-2">
                 <span class="p-inputgroup-addon">
