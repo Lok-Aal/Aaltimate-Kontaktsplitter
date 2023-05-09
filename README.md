@@ -22,7 +22,7 @@ Dieses Projekt ist ein Prototyp für eine Anwendung, die einen Kontakt-String pa
 3. Dependencies installieren: `npm install`
 4. Projekt starten: `npm start`
 
-Projekt sollte nun unter [localhost:3000](http://localhost:4200) erreichbar sein.
+Projekt sollte nun unter [localhost:4200](http://localhost:4200) erreichbar sein.
 
 ## Anwendung testen
 
