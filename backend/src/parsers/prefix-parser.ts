@@ -137,7 +137,7 @@ function merge_contact_prefix(c1: ContactPrefix, c2: ContactPrefix): ContactPref
     let gender = c1.gender || c2.gender;
 
     // Geschlechter der Präfixe stimmen nicht überein
-    if (c1.gender != null && c2.gender != c1.gender) {
+    if (c1.gender != null && c2.gender != null && c2.gender != c1.gender) {
         gender = "error";
     }
 
